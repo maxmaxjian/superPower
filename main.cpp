@@ -3,6 +3,7 @@
 #include <string>
 #include <queue>
 #include <stack>
+#include <cassert>
 
 using std::string;
 using std::vector;
@@ -26,8 +27,8 @@ class solution {
             n = times(n, "2");
         string lower, upper = n;
         lower = dividedBy2(upper);        
-        std::cout << "lower = " << lower << ", upper = " << upper << std::endl;
-        std::cout << "result = " << result << std::endl;
+        // std::cout << "lower = " << lower << ", upper = " << upper << std::endl;
+        // std::cout << "result = " << result << std::endl;
         if (equal(times("1337",upper),result))
             return "0";
         else {
@@ -38,7 +39,7 @@ class solution {
                     if (equal(times("1337",mid),result)) {
                         return "0";
                     }
-                    else if (!largerThan(mid, result)) {
+                    else if (!largerThan(times("1337",mid), result)) {
                         lower = mid;
                     }
                     else {
@@ -48,22 +49,17 @@ class solution {
                 else
                     break;
             }
-            // if (lb < ub - 1)
-            //     return add(lower, std::to_string(found));
-            // else {
-            //     if (lb == target)
-            //         return add(lower, std::to_string(lb));
-            //     else if (ub == target)
-            //         return add(lower, std::to_string(ub));
-            // }
-            std::cout << "lower = " << lower << ", upper = " << upper << std::endl;
-            std::cout << "result-lower = " << subtract(result, times("1337",lower)) << std::endl;
-            std::cout << "upper-result = " << subtract(times("1337",upper), result) << std::endl;
+	    
+            // std::cout << "lower = " << lower << ", upper = " << upper << std::endl;
+	    // std::cout << "times(""1337"", lower) = " << times("1337",lower) << std::endl;
+	    // std::cout << "times(""1337"", upper) = " << times("1337",upper) << std::endl;
+            // std::cout << "result-lower = " << subtract(result, times("1337",lower)) << std::endl;
+            // std::cout << "upper-result = " << subtract(times("1337",upper), result) << std::endl;
 
-
-            
-            
-            return "1";
+	    if (equal(result, times("1337", upper)))
+	      return "0";
+	    else
+	      return subtract(result, times("1337", lower));
         }
     }
 
@@ -75,6 +71,7 @@ class solution {
     }
     
     string subtract(const string & num1, const string & num2) {
+      assert(largerThan(num1, num2));
         stack<int> n1, n2;
         for (auto ch : num1)
             n1.push(std::stoi(string(1,ch)));
@@ -102,6 +99,9 @@ class solution {
             n2.pop();
             result.insert(0, std::to_string(temp));
         }
+
+	while (*(result.begin()) == '0')
+	  result.erase(result.begin());
         return result;
     }
     
@@ -204,11 +204,9 @@ class solution {
 
 int main() {
     int a = 345;
-    vector<int> b{1,2};
+    vector<int> b{1,2,1};
     
     solution soln;
-
-    std::cout << soln.subtract("123","45") << std::endl;
     
     std::cout << soln.superPow(a,b) << std::endl;    
 }
